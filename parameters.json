@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "southeastasia"
+        },
+        "virtualMachineName": {
+            "value": "DC"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_D1"
+        },
+        "adminUsername": {
+            "value": "testuser"
+        },
+        "storageAccountName": {
+            "value": "domainc"
+        },
+        "virtualNetworkName": {
+            "value": "dc"
+        },
+        "networkInterfaceName": {
+            "value": "dc209"
+        },
+        "adminPassword": {
+            "value": null
+        },
+        "storageAccountType": {
+            "value": "Standard_LRS"
+        },
+        "addressPrefix": {
+            "value": "10.0.6.0/28"
+        },
+        "subnetName": {
+            "value": "dc"
+        },
+        "subnetPrefix": {
+            "value": "10.0.6.0/28"
+        },
+        "publicIpAddressName": {
+            "value": "DC"
+        },
+        "publicIpAddressType": {
+            "value": "Dynamic"
+        }
+    }
+}
