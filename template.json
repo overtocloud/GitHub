@@ -3,46 +3,46 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "type": "southeastasia"
+            "value": "southeastasia"
         },
         "virtualMachineName": {
-            "type": "DC"
+            "value": "DC"
         },
         "virtualMachineSize": {
-            "type": "Standard_D1"
+            "value": "Standard_D1"
         },
         "adminUsername": {
-            "type": "testuser"
+            "value": "testuser"
         },
         "storageAccountName": {
-            "type": "domainc"
+            "value": "domainc"
         },
         "virtualNetworkName": {
-            "type": "dc"
+            "value": "dc"
         },
         "networkInterfaceName": {
-            "type": "dc"
+            "value": "dc"
         },
         "adminPassword": {
-            "type": "SecureString"
+            "value": "SecureString"
         },
         "storageAccountType": {
-            "type": "Standard_LRS"
+            "value": "Standard_LRS"
         },
         "addressPrefix": {
-            "type": "10.0.6.0/28"
+            "value": "10.0.6.0/28"
         },
         "subnetName": {
-            "type": "dc"
+            "value": "dc"
         },
         "subnetPrefix": {
-            "type": "10.0.6.0/28"
+            "value": "10.0.6.0/28"
         },
         "publicIpAddressName": {
-            "type": "dc"
+            "value": "dc"
         },
         "publicIpAddressType": {
-            "type": "Dynamic"
+            "value": "Dynamic"
         }
     },
     "variables": {
