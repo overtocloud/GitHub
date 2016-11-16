@@ -15,13 +15,13 @@
             "value": "testuser"
         },
         "storageAccountName": {
-            "value": "domainc"
+            "value": "domainstor"
         },
         "virtualNetworkName": {
             "value": "dc"
         },
         "networkInterfaceName": {
-            "value": "dc209"
+            "value": "dc"
         },
         "adminPassword": {
             "value": null
