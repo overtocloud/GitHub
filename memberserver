@@ -1,0 +1,174 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_dc_adminPassword": {
+            "defaultValue": null,
+            "type": "SecureString"
+        },
+        "virtualMachines_dc_name": {
+            "defaultValue": "member",
+            "type": "String"
+        },
+        "networkInterfaces_dc_name": {
+            "defaultValue": "member",
+            "type": "String"
+        },
+        "publicIPAddresses_DC_name": {
+            "defaultValue": "member",
+            "type": "String"
+        },
+        "virtualNetworks_dc_name": {
+            "defaultValue": "dc",
+            "type": "String"
+        },
+        "storageAccounts_domainstor_name": {
+            "defaultValue": "domainstor",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/b64bfc47-519b-425b-9a47-e7cabc31d840/resourceGroups/ravim-rg/providers/Microsoft.Compute/virtualMachines/dc'.",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_dc_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "southeastasia",
+            "properties": {
+                "mode": "Incremental",
+				"hardwareProfile": {
+                    "vmSize": "Standard_D1"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2012-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[parameters('virtualMachines_dc_name')]",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('https', '://', parameters('storageAccounts_domainstor_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_dc_name'),'20161016183237.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_dc_name')]",
+                    "adminUsername": "testuser",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "secrets": [],
+                    "adminPassword": "[parameters('virtualMachines_dc_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_dc_name'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_domainstor_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_dc_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b64bfc47-519b-425b-9a47-e7cabc31d840/resourceGroups/ravim-rg/providers/Microsoft.Network/networkInterfaces/dc'.",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_dc_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "southeastasia",
+            "properties": {
+                "mode": "Incremental",
+				"ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.0.6.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_DC_name'))]"
+                            },
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dc_name')), concat('/subnets/', parameters('networkInterfaces_dc_name')))]"
+                            }
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_DC_name'))]",
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_dc_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b64bfc47-519b-425b-9a47-e7cabc31d840/resourceGroups/ravim-rg/providers/Microsoft.Network/publicIPAddresses/DC'.",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_DC_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "southeastasia",
+            "properties": {
+                "mode": "Incremental",
+				"publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b64bfc47-519b-425b-9a47-e7cabc31d840/resourceGroups/ravim-rg/providers/Microsoft.Network/virtualNetworks/dc'.",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_dc_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "southeastasia",
+            "properties": {
+                "mode": "Incremental",
+				"addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.6.0/28"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('virtualNetworks_dc_name')]",
+                        "properties": {
+                            "addressPrefix": "10.0.6.0/28"
+                        }
+                    }
+                ]
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/b64bfc47-519b-425b-9a47-e7cabc31d840/resourceGroups/ravim-rg/providers/Microsoft.Storage/storageAccounts/domainstor'.",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_domainstor_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "southeastasia",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        }
+    ]
+}
